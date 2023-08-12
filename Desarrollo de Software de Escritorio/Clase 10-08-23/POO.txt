@@ -1,0 +1,56 @@
+negocio
+    nombre
+    empleado
+    ubicacion
+    horario
+    producto
+
+    preparar()
+    vender()
+    servir()
+
+negocio1
+    nombre: JuanitaSandwich
+    empleado: Juanito
+    ubicacion: San Joaquín
+    horario: 6PM - 12AM
+    producto: sandwich
+
+    preparar()
+    vender()
+    servir()
+
+
+sandwich
+    nombre
+    pan
+    ingrediente
+    coccion
+    tipo
+
+    preparar()
+    vender()
+    comer()
+
+sandwich1
+    nombre: italiano
+    pan: baguet
+    ingrediente: palta, mayo, tomate
+    coccion: 2 min
+    tipo: medio
+
+    preparar()
+    vender()
+    comer()  
+
+sandwich2
+    nombre: barros luco
+    pan: marraqueta
+    ingrediente: carne, queso
+    coccion: 5 min
+    tipo: caliente
+
+    preparar()
+    vender()
+    comer()
+
