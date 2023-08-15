@@ -10,7 +10,7 @@ SELECT
     fecini_arriendo,
     --EXTRACT(DAY FROM fecini_arriendo),
     --EXTRACT(MONTH FROM fecini_arriendo),
-    --EXTRACT(YEAR FROM fecini_arriendo) AS "AÑO",
+    --EXTRACT(YEAR FROM fecini_arriendo) AS "Aï¿½O",
     TO_CHAR(fecini_arriendo, 'dd/mm/yyyy') AS "FECHA INCIO ARRIENDO"
     --SYSDATE
 FROM propiedad_arrendada
