@@ -1,5 +1,6 @@
 A1 = input("Ingrese el primer termino: ")
 A2 = input("Ingrese el segundo termino de la secuencia: ")
+r = int(input("Ingrese la cantidad de numeros: "))
 
 try:
     A1 = int(A1)
@@ -13,7 +14,9 @@ except ValueError:
     d = float("{:.2f}".format(d))
 
 a = []
-for i in range (5):
+for i in range(r):
     n = i + 1
     a.append(A1 + (n-1) * d)
-    print(f'a({n})={a[i]}')       
+    print(f'a({n})={a[i]}')
+
+print(f"La formula es {d}(n-1)+{A1}")
