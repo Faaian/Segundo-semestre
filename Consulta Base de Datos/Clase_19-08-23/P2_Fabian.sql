@@ -21,15 +21,17 @@ ORDER BY
 SELECT
     numrut_cli || '-'|| dvrut_cli AS "RUT CLIENTE",
     nombre_cli ||' '|| appaterno_cli || ' '|| apmaterno_cli AS "NOMBRE CLIENTE",
-    renta_cli
-    
+    renta_cli AS "RENTA",
+    fonofijo_cli AS "TELEFONO FIJO",
+    celular_cli AS "CELULAR"
 FROM cliente
 WHERE 
-    id_estcivil = 1
-    --AND id_estcivil = 3
-    id_estcivil = 4
+    id_estcivil != 2
+    AND id_estcivil != 5
     AND renta_cli >= 800000
+ORDER BY
+    appaterno_cli ASC,
+    nombre_cli ASC
 ;
 
-SELECT * FROM cliente;
-SELECT * FROM estado_civil;
+-- Caso 3
