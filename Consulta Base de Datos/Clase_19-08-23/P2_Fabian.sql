@@ -18,3 +18,18 @@ ORDER BY
 ;
 
 -- Caso 2
+SELECT
+    numrut_cli || '-'|| dvrut_cli AS "RUT CLIENTE",
+    nombre_cli ||' '|| appaterno_cli || ' '|| apmaterno_cli AS "NOMBRE CLIENTE",
+    renta_cli
+    
+FROM cliente
+WHERE 
+    id_estcivil = 1
+    --AND id_estcivil = 3
+    id_estcivil = 4
+    AND renta_cli >= 800000
+;
+
+SELECT * FROM cliente;
+SELECT * FROM estado_civil;
