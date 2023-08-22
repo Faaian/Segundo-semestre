@@ -19,4 +19,4 @@ for i in range(rango):
     print(f'a({n})={a[i]}')
 
 print(f"La razon geometrica es: {r}")
-print(f"La formula es {A1} * {r} ** (n-1)")
+print(f"La formula es {A1}*{r}**(n-1)")
