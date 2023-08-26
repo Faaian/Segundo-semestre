@@ -40,16 +40,15 @@ SELECT
     valor_arriendo_dia AS "VALOR_ARRIENDO_DIA_SR",
     valor_garantia_dia AS "VALOR_GARANTIA_DIA_SR",
     EXTRACT(YEAR FROM SYSDATE)- anio AS "ANNOS_ANTIGUEDAD",
-    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio > 5 THEN valor_arriendo_dia - ((valor_arriendo_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
-         ELSE valor_arriendo_dia END
-         AS "VALOR_ARRIENDO_DIA_CR",
-    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio > 5 THEN valor_garantia_dia - ((valor_garantia_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
-         ELSE valor_garantia_dia END
-         AS "VALOR_GARANTIA_DIA_CR"
+    valor_arriendo_dia - ((valor_arriendo_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100) AS "VALOR_ARRIENDO_DIA_CR",
+    valor_garantia_dia - ((valor_garantia_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100) AS "VALOR_GARANTIA_DIA_CR"
 FROM
-    camion
+    camion    
+WHERE
+    EXTRACT(YEAR FROM SYSDATE)- anio > 5
 ORDER BY
-    anio, nro_patente ASC
+    EXTRACT(YEAR FROM SYSDATE)- anio DESC,
+    nro_patente ASC
 ;
 
 -- Caso 5
@@ -63,6 +62,9 @@ SELECT
     25500*(fecha_devolucion - fecha_ini_arriendo) AS "VALOR_MULTA"
 FROM 
     arriendo_camion
+WHERE
+    EXTRACT(YEAR FROM fecha_ini_arriendo) = 2022 AND
+    EXTRACT(MONTH FROM fecha_devolucion) = 07
 ORDER BY
     fecha_ini_arriendo, nro_patente ASC
 ;
