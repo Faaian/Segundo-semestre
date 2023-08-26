@@ -1,5 +1,5 @@
---Caso 1
---Informe 1
+-- Caso 1
+-- informe 1
 
 SELECT
     to_char(fecha_entrega_propiedad, 'dd-mm-yyyy') AS "Fecha_entrega_propiedad"
@@ -9,30 +9,20 @@ WHERE
 ORDER BY EXTRACT(MONTH FROM fecha_entrega_propiedad) ASC
 ;
 
---informe 2
+-- informe 2
 
-SELECT
-     fecini_arriendo,
-    --EXTRACT(DAY FROM fecini_arriendo),
-    --EXTRACT(MONTH FROM fecini_arriendo),
-    --EXTRACT(YEAR FROM fecini_arriendo),
-    to_char(fecini_arriendo, 'dd-mm-yyyy') AS "Fecha_inicio_arriendo"
-    --SYSDATE
+SELECt
+    to_char(fecini_arriendo, 'dd/mm/yyyy') AS "FECHA INICIO ARRIENDO"
 FROM propiedad_arrendada
 WHERE
     EXTRACT (YEAR FROM fecini_arriendo) = 2023
-    --EXTRACT(YEAR FROM fecini_arriendo) = EXTRACT(YEAR FROM SYSDATE)
-    --EXTRACT(YEAR FROM fecini_arriendo) = 00
 ORDER BY EXTRACT(MONTH FROM fecini_arriendo) ASC
 ;
-
-select *
-from propiedad_arrendada;
 
 --Caso 2
 
 SELECT
-    numrut_cli || ' ' || dvrut_cli AS "Rut Cliente",
+    numrut_cli || '-' || dvrut_cli AS "Rut Cliente",
     nombre_cli || ' ' || appaterno_cli || ' ' || apmaterno_cli AS "Nombre Cliente",
     renta_cli AS "Renta",
     fonofijo_cli AS "Telefono fijo",
@@ -71,7 +61,7 @@ ORDER BY sueldo_emp * 1.20 - sueldo_emp DESC
 --Caso 4
 
 SELECT
-    numrut_emp || ' ' || dvrut_emp AS "RUN Empleado",
+    numrut_emp || '-' || dvrut_emp AS "RUN Empleado",
     nombre_emp || ' ' || appaterno_emp || ' ' || apmaterno_emp AS "Nombre Empleado",
     sueldo_emp AS "Salario Actual",
     sueldo_emp * 1.20 - sueldo_emp AS "Bonificacion Extra"
@@ -85,11 +75,11 @@ ORDER BY appaterno_emp
 
 SELECT
     nro_propiedad || ' '  AS "Numero Propiedad",
-    TO_CHAR(fecha_entrega_propiedad, 'dd-mm-yyyy') AS "Fecha Entrega Propiedad",
+    TO_CHAR(fecha_entrega_propiedad, 'dd/mm/yyyy') AS "Fecha Entrega Propiedad",
     direccion_propiedad AS "Direccion",
     superficie,
     nro_dormitorios AS "Cantidad de dormitorios",
-    nro_banos AS "Cantidad de baÃ±os",
+    nro_banos AS "Cantidad de baños",
     valor_arriendo AS "Valor Arriendo"
 FROM propiedad
 WHERE 
@@ -105,7 +95,7 @@ SELECT
     direccion_propiedad AS "Direccion",
     superficie,
     nro_dormitorios AS "Cantidad de dormitorios",
-    nro_banos AS "Cantidad de baÃ±os",
+    nro_banos AS "Cantidad de baños",
     valor_arriendo AS "Valor Arriendo"
 FROM propiedad
 WHERE 
