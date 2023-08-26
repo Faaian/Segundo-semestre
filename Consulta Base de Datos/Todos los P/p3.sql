@@ -40,10 +40,10 @@ SELECT
     valor_arriendo_dia AS "VALOR_ARRIENDO_DIA_SR",
     valor_garantia_dia AS "VALOR_GARANTIA_DIA_SR",
     EXTRACT(YEAR FROM SYSDATE)- anio AS "ANNOS_ANTIGUEDAD",
-    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio >= 5 THEN valor_arriendo_dia - ((valor_arriendo_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
+    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio > 5 THEN valor_arriendo_dia - ((valor_arriendo_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
          ELSE valor_arriendo_dia END
          AS "VALOR_ARRIENDO_DIA_CR",
-    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio >= 5 THEN valor_garantia_dia - ((valor_garantia_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
+    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio > 5 THEN valor_garantia_dia - ((valor_garantia_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
          ELSE valor_garantia_dia END
          AS "VALOR_GARANTIA_DIA_CR"
 FROM
