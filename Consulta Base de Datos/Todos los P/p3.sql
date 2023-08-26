@@ -33,5 +33,36 @@ FROM empleado
 ORDER BY appaterno_emp
 ;
 
--- Caso 3
-SELECT * FROM empleado;
+-- Caso 4
+SELECT
+    EXTRACT(YEAR FROM SYSDATE) AS "ANNO_PROCESO",
+    nro_patente,
+    valor_arriendo_dia AS "VALOR_ARRIENDO_DIA_SR",
+    valor_garantia_dia AS "VALOR_GARANTIA_DIA_SR",
+    EXTRACT(YEAR FROM SYSDATE)- anio AS "ANNOS_ANTIGUEDAD",
+    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio >= 5 THEN valor_arriendo_dia - ((valor_arriendo_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
+         ELSE valor_arriendo_dia END
+         AS "VALOR_ARRIENDO_DIA_CR",
+    CASE WHEN EXTRACT(YEAR FROM SYSDATE)- anio >= 5 THEN valor_garantia_dia - ((valor_garantia_dia * (EXTRACT(YEAR FROM SYSDATE)- anio)) / 100)
+         ELSE valor_garantia_dia END
+         AS "VALOR_GARANTIA_DIA_CR"
+FROM
+    camion
+ORDER BY
+    anio, nro_patente ASC
+;
+
+-- Caso 5
+SELECT
+    TO_CHAR(SYSDATE, 'mm/yyyy') AS "MES_ANNO_PROCESO",
+    nro_patente,
+    TO_DATE(fecha_ini_arriendo, 'DD/MM/YYYY') AS "FECHA_INI_ARRIENDO",
+    dias_solicitados,
+    TO_DATE(fecha_devolucion, 'DD/MM/YYYY') AS "FECHA_DEVOLUCION",
+    fecha_devolucion - fecha_ini_arriendo AS "DIAS_ATRASO",
+    25500*(fecha_devolucion - fecha_ini_arriendo) AS "VALOR_MULTA"
+FROM 
+    arriendo_camion
+ORDER BY
+    fecha_ini_arriendo, nro_patente ASC
+;

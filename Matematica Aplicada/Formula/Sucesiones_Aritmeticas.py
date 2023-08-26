@@ -16,7 +16,12 @@ except ValueError:
 a = []
 for i in range(r):
     n = i + 1
-    a.append(A1 + (n-1) * d)
+    a.append(A1+(n-1)*d)
     print(f'a({n})={a[i]}')
-
+    
 print(f"La formula es {d}(n-1)+{A1}")
+num1 = int(input("Desde que numero deseas hacer la sumatoria: ")) - 1
+num2 = int(input("Hasta que numero: ")) - 1
+
+suma = sum(a[num1:num2])
+print(suma)
