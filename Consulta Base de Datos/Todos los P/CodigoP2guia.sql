@@ -13,10 +13,16 @@ ORDER BY EXTRACT(MONTH FROM fecha_entrega_propiedad) ASC
 
 SELECT
      fecini_arriendo,
-     to_char(fecini_arriendo, 'dd-mm-yyyy') AS "Fecha_inicio_arriendo"
+    --EXTRACT(DAY FROM fecini_arriendo),
+    --EXTRACT(MONTH FROM fecini_arriendo),
+    --EXTRACT(YEAR FROM fecini_arriendo),
+    to_char(fecini_arriendo, 'dd-mm-yyyy') AS "Fecha_inicio_arriendo"
+    --SYSDATE
 FROM propiedad_arrendada
 WHERE
     EXTRACT (YEAR FROM fecini_arriendo) = 2023
+    --EXTRACT(YEAR FROM fecini_arriendo) = EXTRACT(YEAR FROM SYSDATE)
+    --EXTRACT(YEAR FROM fecini_arriendo) = 00
 ORDER BY EXTRACT(MONTH FROM fecini_arriendo) ASC
 ;
 
@@ -33,8 +39,8 @@ SELECT
     celular_cli AS "Celular"
 FROM cliente
 WHERE
-    id_estcivil IN (1,3,4) AND
-    renta_cli >800000
+    id_estcivil IN (3,4) AND
+    renta_cli >=800000 OR id_estcivil = 1
 ORDER BY appaterno_cli ASC, nombre_cli DESC
 ;
 
@@ -70,7 +76,7 @@ SELECT
     sueldo_emp AS "Salario Actual",
     sueldo_emp * 1.20 - sueldo_emp AS "Bonificacion Extra"
 FROM empleado
-WHERE sueldo_emp <= 500000
+WHERE sueldo_emp < 500000
 ORDER BY appaterno_emp
 ;
 
