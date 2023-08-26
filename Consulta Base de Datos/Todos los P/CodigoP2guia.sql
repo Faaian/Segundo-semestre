@@ -70,7 +70,7 @@ SELECT
     sueldo_emp AS "Salario Actual",
     sueldo_emp * 1.20 - sueldo_emp AS "Bonificacion Extra"
 FROM empleado
-WHERE sueldo_emp < 500000
+WHERE sueldo_emp <= 500000
 ORDER BY appaterno_emp
 ;
 

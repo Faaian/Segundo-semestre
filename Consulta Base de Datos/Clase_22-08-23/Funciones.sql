@@ -6,7 +6,8 @@ SELECT
     LOWER(direccion), -- Minuscula
     UPPER(direccion), -- Mayuscula
     INITCAP(direccion), -- Primera letra mayuscula
-    REPLACE(pnombre_cli, 'A', 'O')
+    REPLACE(pnombre_cli, 'A', 'O'),
+    LENGTH(pnombre_cli)
 FROM cliente
 ORDER BY appaterno_cli DESC
 ;

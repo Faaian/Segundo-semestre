@@ -23,7 +23,9 @@ for i in range(rango):
 
 print(f"La razon geometrica es: {r}")
 print(f"La formula es {A1}*{r}**(n-1)")
+
 valor = input("Ingrese el termino: ")
+
 try:
     x = int(valor) / A1
 except ValueError:
@@ -33,21 +35,7 @@ ax = round(math.log(x, r)) + 1
 print(f"El termino de lugar {ax} es {valor}")
 print(f"a({ax})={valor}")
 
-#forma
-#n = 0
-#termino = 0
-#vfinal = input("Ingrese el termino: ")
-#try:
-#    vfinal = int(vfinal)
-#except ValueError:
-#    vfinal = float(vfinal)
-#
-#dif=vfinal-termino
-#
-#while dif > 0:
-#    n=n+1
-#    termino = A1*r**(n-1)
-#    dif=vfinal-termino
-#    anterior =A1*r**(n-2)
-#print (f'El termino de lugar {n} es {termino}')
-#print (f'El termino de lugar {n-1} es {anterior}')
+num1 = int(input("Desde que numero deseas hacer la sumatoria: ")) - 1
+num2 = int(input("Hasta que numero: "))
+suma = sum(a[num1:num2])
+print(suma)
