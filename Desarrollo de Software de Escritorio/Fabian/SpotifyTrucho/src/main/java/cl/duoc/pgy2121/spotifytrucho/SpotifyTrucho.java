@@ -12,21 +12,12 @@ package cl.duoc.pgy2121.spotifytrucho;
 public class SpotifyTrucho {
     private String nombre = "Fabian";
     
+    
     public static void main(String[] args) {
-        //Variables
-        char sexo = 'M';
-            String nombre = "Fabian";
-        boolean isValid = false;
-            byte bytes;  
-        int edad = 18;
-            float decimal = 18.5f;
-            double doble = 3.10d;
-            long numeroLargo = 2323232323232l;
-            short numeroChico = 34;
-            
-        System.out.println("Nombre: "+ nombre);
-        System.out.println("Edad: "+ edad);
-        System.out.println("Activo: "+ isValid);
+        Cancion cancion1 = new Cancion("Despacito", "Fonsi", 5.00);
+        cancion1.setArtista();
+        cancion1.setTitulo();
+        cancion1.setDuracion();
     }
     
 }
