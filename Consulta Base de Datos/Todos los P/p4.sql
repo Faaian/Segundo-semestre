@@ -15,8 +15,8 @@ SELECT
     'El empleado '||pnombre_emp||
     ' '|| appaterno_emp||' '
     ||apmaterno_emp
-    ||TO_CHAR(fecha_nac, '" estuvo de cumpleaños el " d "de" Month. "Cumplió" ')||(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM fecha_nac))|| ' años'
-    AS "LISTADO DE CUMPLEAÑOS"
+    ||TO_CHAR(fecha_nac, '" estuvo de cumpleaÃ±os el " d "de" Month. "CumpliÃ³" ')||(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM fecha_nac))|| ' aÃ±os'
+    AS "LISTADO DE CUMPLEAÃ‘OS"
 FROM
     empleado
 WHERE 
@@ -30,7 +30,7 @@ ORDER BY
 SELECT
     nombre_tipo_camion AS "TIPO CAMION",
     nro_patente AS "NRO PATENTE",
-    anio AS "AÑO",
+    anio AS "AÃ‘O",
     TO_CHAR(valor_arriendo_dia, '$999g999') AS "VALOR ARRIENDO DIA",
     COALESCE(TO_CHAR(valor_garantia_dia, '$999g999'), ' $0') AS "VALOR GARANTIA DIA",
     TO_CHAR((valor_arriendo_dia + NVL(valor_garantia_dia, 0)), '$999G999') AS "VALOR TOTAL DIA"
@@ -38,7 +38,7 @@ FROM
     camion,
     tipo_camion
 WHERE
-    anio < 2023 
+    anio BETWEEN 2017 AND 2019 
 ORDER BY
     nombre_tipo_camion,
     valor_arriendo_dia DESC,
