@@ -101,12 +101,20 @@ ORDER BY
 
 -- Caso 6
 SELECT
-    EXTRACT(YEAR FROM SYSDATE) AS "AÑO TRIBUTARIO",
-    TO_CHAR(numrun_emp, '99G999G999')||'-'||dvrun_emp AS "RUN EMPLEADO",
-    pnombre_emp||' '||snombre_emp||' '||appaterno_emp||' '||apmaterno_emp AS "NOMBRE EMPLEADO",
-    ROUND(MONTH BETWEEN('31/12/2022'))
-FROM
-    empleado
+    EXTRACT(YEAR FROM TO_DATE('2019','YYYY')) AS "Año Tributario",
+    TO_CHAR(numrun_emp,'00G000G000') ||'-'|| dvrun_emp AS "Run Empleado",
+    pnombre_emp ||' '|| snombre_emp ||' '|| appaterno_emp ||' '|| apmaterno_emp AS "Nombre Empleado",
+    --ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) AS "Meses Trabajados en el Año",
+    CASE WHEN ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) > 12 Then 12
+         ELSE ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) END AS "Meses Trabajados en el año",
+    (EXTRACT(YEAR FROM TO_DATE('2022','YYYY'))-(EXTRACT(YEAR FROM fecha_contrato))) AS "Años Trabajados",
+    sueldo_base AS "Sueldo Base Mensual",
+    MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'),TO_DATE('01/08/2018','DD/MM/YYYY')) * sueldo_base AS "Sueldo Base Anual",
+    TRUNC((sueldo_base * (EXTRACT(YEAR FROM TO_DATE('2022','YYYY'))-(EXTRACT(YEAR FROM fecha_contrato)))/100)*12) AS "Bono Por Años Anual",
+    ROUND((sueldo_base *0.12)* MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'), TO_DATE('01/08/2018','DD/MM/YYYY'))) AS "Movilizacion Anual",
+    ROUND((sueldo_base *0.20)* MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'), TO_DATE('01/08/2018','DD/MM/YYYY'))) AS "Colacion Anual",
+    (MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'),TO_DATE('01/08/2018','DD/MM/YYYY')) * sueldo_base) + TRUNC((sueldo_base * (EXTRACT(YEAR FROM TO_DATE('2022','YYYY'))-(EXTRACT(YEAR FROM fecha_contrato)))/100)*12) + ROUND((sueldo_base *0.12)* MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'), TO_DATE('01/08/2018','DD/MM/YYYY'))) + ROUND((sueldo_base *0.20)* MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'), TO_DATE('01/08/2018','DD/MM/YYYY'))) AS "Sueldo Bruto Anual",
+    (MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'),TO_DATE('01/08/2018','DD/MM/YYYY')) * sueldo_base) + TRUNC((sueldo_base * (EXTRACT(YEAR FROM TO_DATE('2022','YYYY'))-(EXTRACT(YEAR FROM fecha_contrato)))/100)*12) AS "Renta Imponible Anual"
+FROM empleado
+ORDER BY numrun_emp
 ;
-select * from empleado;
-
