@@ -17,8 +17,8 @@ SELECT
     'El empleado '||pnombre_emp||
     ' '|| appaterno_emp||' '
     ||apmaterno_emp
-    ||TO_CHAR(fecha_nac, '" estuvo de cumpleaños el " d "de" Month. "Cumplió" ')||(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM fecha_nac))|| ' años'
-    AS "LISTADO DE CUMPLEAÑOS"
+    ||TO_CHAR(fecha_nac, '" estuvo de cumpleaÃ±os el " d "de" FM Month". CumpliÃ³" ')||(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM fecha_nac))|| ' aÃ±os'
+    AS "LISTADO DE CUMPLEAÃ‘OS"
 FROM
     empleado
 WHERE 
@@ -39,7 +39,7 @@ SELECT
      END
      AS "TIPO CAMION",
     nro_patente AS "NRO PATENTE",
-    anio AS "AÑO",
+    anio AS "AÃ‘O",
     TO_CHAR(valor_arriendo_dia, '$999g999') AS "VALOR ARRIENDO DIA",
     COALESCE(TO_CHAR(valor_garantia_dia, '$999g999'), ' $0') AS "VALOR GARANTIA DIA",
     TO_CHAR((valor_arriendo_dia + NVL(valor_garantia_dia, 0)), '$999G999') AS "VALOR TOTAL DIA"
@@ -78,7 +78,7 @@ ORDER BY
 SELECT
     numrun_emp||'-'||dvrun_emp AS "RUN EMPLEADO",
     pnombre_emp||' '||snombre_emp||' '||appaterno_emp||' '||apmaterno_emp AS "NOMBRE EMPLEADO",
-    (EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM fecha_contrato)) AS "AÑOS CONTRATADOS",
+    (EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM fecha_contrato)) AS "AÃ‘OS CONTRATADOS",
     TO_CHAR(sueldo_base, '$9G999G999') AS "SUELDO BASE",
     TO_CHAR((sueldo_base * (EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM fecha_contrato))) / 100, '$9G999G999') AS "VALOR MOVILIZACION",
     CASE
@@ -101,7 +101,7 @@ ORDER BY
 
 -- Caso 6
 SELECT
-    EXTRACT(YEAR FROM SYSDATE) AS "AÑO TRIBUTARIO",
+    EXTRACT(YEAR FROM SYSDATE) AS "AÃ‘O TRIBUTARIO",
     TO_CHAR(numrun_emp, '99G999G999')||'-'||dvrun_emp AS "RUN EMPLEADO",
     pnombre_emp||' '||snombre_emp||' '||appaterno_emp||' '||apmaterno_emp AS "NOMBRE EMPLEADO",
     ROUND(MONTH BETWEEN('31/12/2022'))
