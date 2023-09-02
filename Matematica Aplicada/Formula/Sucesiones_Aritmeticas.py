@@ -21,7 +21,7 @@ for i in range(r):
     
 print(f"La formula es {d}(n-1)+{A1}")
 num1 = int(input("Desde que numero deseas hacer la sumatoria: ")) - 1
-num2 = int(input("Hasta que numero: ")) - 1
+num2 = int(input("Hasta que numero: "))
 
 suma = sum(a[num1:num2])
 print(suma)
