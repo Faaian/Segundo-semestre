@@ -52,8 +52,6 @@ ORDER BY
     nro_patente ASC
 ;
 
-select * from camion;
-select * from tipo_camion;
 -- Caso 4
 SELECT
     TO_CHAR(SYSDATE, 'MM/YYYY')AS "FECHA PROCESO",
@@ -101,11 +99,11 @@ ORDER BY
 
 -- Caso 6
 SELECT
-    EXTRACT(YEAR FROM TO_DATE('2019','YYYY')) AS "Año Tributario",
+    EXTRACT(YEAR FROM TO_DATE('2023','YYYY')) AS "Año Tributario",
     TO_CHAR(numrun_emp,'00G000G000') ||'-'|| dvrun_emp AS "Run Empleado",
     pnombre_emp ||' '|| snombre_emp ||' '|| appaterno_emp ||' '|| apmaterno_emp AS "Nombre Empleado",
-    --ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) AS "Meses Trabajados en el Año",
-    CASE WHEN ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) > 12 Then 12
+    CASE 
+        WHEN ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) > 12 Then 12
          ELSE ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) END AS "Meses Trabajados en el año",
     (EXTRACT(YEAR FROM TO_DATE('2022','YYYY'))-(EXTRACT(YEAR FROM fecha_contrato))) AS "Años Trabajados",
     sueldo_base AS "Sueldo Base Mensual",
