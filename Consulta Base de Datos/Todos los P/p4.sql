@@ -1,6 +1,6 @@
 -- Caso 1
 SELECT
-    TO_CHAR(numrun_cli,'00G000G000')||'-'||dvrun_cli AS "RUN CLIENTE",
+    TO_CHAR(numrun_cli,'99G999G999')||'-'||dvrun_cli AS "RUN CLIENTE",
     appaterno_cli||' '||SUBSTR(apmaterno_cli,1,1)||'. '||pnombre_cli||' '||snombre_cli AS "NOMBRE CLIENTE",
     direccion,
     NVL(TO_CHAR(fono_fijo_cli),'NO POSEE TELEFONO FIJO') AS "TELEFONO FIJO",
