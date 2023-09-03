@@ -40,16 +40,16 @@ SELECT
      AS "TIPO CAMION",
     nro_patente AS "NRO PATENTE",
     anio AS "AÑO",
-    TO_CHAR(valor_arriendo_dia, '$999g999') AS "VALOR ARRIENDO DIA",
-    COALESCE(TO_CHAR(valor_garantia_dia, '$999g999'), ' $0') AS "VALOR GARANTIA DIA",
-    TO_CHAR((valor_arriendo_dia + NVL(valor_garantia_dia, 0)), '$999G999') AS "VALOR TOTAL DIA"
+    TO_CHAR(valor_arriendo_dia, 'L999g999') AS "VALOR ARRIENDO DIA",
+    TO_CHAR(NVL(valor_garantia_dia, 0), 'L999g999') AS "VALOR GARANTIA DIA",
+    TO_CHAR((valor_arriendo_dia + NVL(valor_garantia_dia, 0)), 'L999G999') AS "VALOR TOTAL DIA"
 FROM
     camion
 ORDER BY
-    id_tipo_camion,
-    valor_arriendo_dia DESC,
-    valor_garantia_dia ASC,
-    nro_patente ASC
+    "TIPO CAMION",
+    "VALOR ARRIENDO DIA" DESC,
+    "VALOR GARANTIA DIA" ASC,
+    nro_patente
 ;
 
 -- Caso 4
@@ -57,13 +57,13 @@ SELECT
     TO_CHAR(SYSDATE, 'MM/YYYY')AS "FECHA PROCESO",
     TO_CHAR(numrun_emp, '99G999G999')||'-'||dvrun_emp AS "RUN EMPLEADO",
     pnombre_emp||' '||snombre_emp||' '||appaterno_emp||' '||apmaterno_emp AS "NOMBRE EMPLEADO",
-    TO_CHAR(sueldo_base, '$9G999G999') AS "SUELDO BASE",
+    TO_CHAR(sueldo_base, 'L9G999G999') AS "SUELDO BASE",
     CASE
-        WHEN sueldo_base >= 320000 and sueldo_base <= 450000 THEN TO_CHAR((200000000 * 0.005), '$9G999G999')
-        WHEN sueldo_base >= 450001 and sueldo_base <= 600000 THEN TO_CHAR((200000000 * 0.0035), '$9G999G999')
-        WHEN sueldo_base >= 600001 and sueldo_base <= 900000 THEN TO_CHAR((200000000 * 0.0025), '$9G999G999')
-        WHEN sueldo_base >= 900001 and sueldo_base <= 1800000 THEN TO_CHAR((200000000 * 0.0015), '$9G999G999')
-        WHEN sueldo_base > 1800000 THEN TO_CHAR((200000000 * 0.001), '$9G999G999')
+        WHEN sueldo_base >= 320000 and sueldo_base <= 450000 THEN TO_CHAR((200000000 * 0.005), 'L9G999G999')
+        WHEN sueldo_base >= 450001 and sueldo_base <= 600000 THEN TO_CHAR((200000000 * 0.0035), 'L9G999G999')
+        WHEN sueldo_base >= 600001 and sueldo_base <= 900000 THEN TO_CHAR((200000000 * 0.0025), 'L9G999G999')
+        WHEN sueldo_base >= 900001 and sueldo_base <= 1800000 THEN TO_CHAR((200000000 * 0.0015), 'L9G999G999')
+        WHEN sueldo_base > 1800000 THEN TO_CHAR((200000000 * 0.001), 'L9G999G999')
     END   
         AS "BONIFICACION POR UTILIDADES"
 FROM
@@ -78,10 +78,10 @@ SELECT
     pnombre_emp||' '||snombre_emp||' '||appaterno_emp||' '||apmaterno_emp AS "NOMBRE EMPLEADO",
     (EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM fecha_contrato)) AS "AÑOS CONTRATADOS",
     TO_CHAR(sueldo_base, '$9G999G999') AS "SUELDO BASE",
-    TO_CHAR((sueldo_base * (EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM fecha_contrato))) / 100, '$9G999G999') AS "VALOR MOVILIZACION",
+    TO_CHAR((sueldo_base * (EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM fecha_contrato))) / 100, 'L9G999G999') AS "VALOR MOVILIZACION",
     CASE
-        WHEN sueldo_base >= 450000 THEN TO_CHAR((sueldo_base * SUBSTR(sueldo_base,1,1)) / 100, '$999G999')
-        WHEN sueldo_base < 450000 THEN TO_CHAR((sueldo_base * SUBSTR(sueldo_base,1,2)) / 100, '$999G999')
+        WHEN sueldo_base >= 450000 THEN TO_CHAR((sueldo_base * SUBSTR(sueldo_base,1,1)) / 100, 'L999G999')
+        WHEN sueldo_base < 450000 THEN TO_CHAR((sueldo_base * SUBSTR(sueldo_base,1,2)) / 100, 'L999G999')
     END
         AS "BONIF.EXTRA MOVILIZACION",
     CASE
@@ -100,11 +100,13 @@ ORDER BY
 -- Caso 6
 SELECT
     EXTRACT(YEAR FROM TO_DATE('2023','YYYY')) AS "Año Tributario",
-    TO_CHAR(numrun_emp,'00G000G000') ||'-'|| dvrun_emp AS "Run Empleado",
+    TO_CHAR(numrun_emp,'99G999G999') ||'-'|| dvrun_emp AS "Run Empleado",
     pnombre_emp ||' '|| snombre_emp ||' '|| appaterno_emp ||' '|| apmaterno_emp AS "Nombre Empleado",
     CASE 
         WHEN ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) > 12 Then 12
-         ELSE ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1) END AS "Meses Trabajados en el año",
+        ELSE ROUND(MONTHS_BETWEEN('31/12/2022', fecha_contrato),1)
+    END
+        AS "Meses Trabajados en el año",
     (EXTRACT(YEAR FROM TO_DATE('2022','YYYY'))-(EXTRACT(YEAR FROM fecha_contrato))) AS "Años Trabajados",
     sueldo_base AS "Sueldo Base Mensual",
     MONTHS_BETWEEN(TO_DATE('01/08/2019','DD/MM/YYYY'),TO_DATE('01/08/2018','DD/MM/YYYY')) * sueldo_base AS "Sueldo Base Anual",
