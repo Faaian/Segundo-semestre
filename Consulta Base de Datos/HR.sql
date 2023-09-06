@@ -2,7 +2,7 @@
 SELECT
     nombre AS "VENDEDOR",
     TO_CHAR(sueldo_base, 'L999g999') AS "SUELDO BASE",
-    NVL(TO_CHAR(comision,'FM9D9'), 'SIN COMISION') AS "%COMISION",
+    NVL(TO_CHAR(comision,'FMD9'), 'SIN COMISION') AS "%COMISION",
     TO_CHAR(fecha_contrato, 'D FMMonth YYYY')AS "FECHA CONTRATO"
 FROM
     vendedor
@@ -37,7 +37,16 @@ SELECT
     numfactura AS "NRO. FACTURA",
     rutvendedor AS "VENDEDOR",
     TO_CHAR(neto,'L999g999') AS "VALOR NETO",
-    NVL(TO_CHAR((EXTRACT(MONTH FROM f_vencimiento) - EXTRACT(MONTH FROM fecha)),'FM9'),'NO APLICA') AS "MESES VENCIMIENTO"
+    CASE
+        WHEN f_vencimiento IS NULL THEN 'NO APLICA'
+        ELSE TO_CHAR((EXTRACT(MONTH FROM f_vencimiento) - EXTRACT(MONTH FROM fecha)),'FM9')
+        ||' MES(ES)'
+    END AS "MESES VENCIMIENTO"
 FROM
     factura
+WHERE
+    estado = 'EM'
+ORDER BY
+    "VENDEDOR" DESC,
+    "VALOR NETO" DESC
 ;
