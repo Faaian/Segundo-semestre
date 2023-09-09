@@ -41,7 +41,8 @@ SELECT
     CASE
         WHEN snombre_emp IS NULL THEN sueldo_base * 0.20
         ELSE sueldo_base * 0.15
-    END,'FML999g999g999') AS "BONO",
+    END,'FML999g999g999') 
+        AS "BONO",
     TO_CHAR(sueldo_base,'FML999g999g999') AS "SUELDO BASE",
     TO_CHAR((sueldo_base + 
         CASE
@@ -56,7 +57,7 @@ SELECT
         WHEN 'P' THEN (sueldo_base * 11.3)/100
     END
     ,'FML999g999g999') 
-    AS "LIQUIDO"
+        AS "LIQUIDO"
 FROM
     empleado
 WHERE
