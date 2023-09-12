@@ -39,3 +39,16 @@ GROUP BY
 ORDER BY
     "SALARIO PROMEDIO POR ESCOLARIDAD"
 ;
+
+-- Restringir resultados
+SELECT
+    id_escolaridad
+    ,ROUND(AVG(salario))
+FROM
+    empleado
+GROUP BY
+    id_escolaridad
+HAVING MIN(salario) > 150000
+AND MAX(salario) > 700000
+;
+
