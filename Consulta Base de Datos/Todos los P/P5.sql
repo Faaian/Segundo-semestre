@@ -1,9 +1,9 @@
 -- Caso 1
 SELECT
      carreraid AS "IDENTIFICACION DE LA CARRERA"
-    ,COUNT(alumnoid) AS "TOTAL ALUMNOS MATRICULADOS"
+    ,COUNT(*) AS "TOTAL ALUMNOS MATRICULADOS"
     , 'Le corresponden '
-    || TO_CHAR((30200 * COUNT(alumnoid)),'FML999g999')
+    || TO_CHAR((30200 * COUNT(*)),'FML999g999')
     || ' del presupuesto total asignado para publicidad' AS "MONTO POR PUBLICIDAD"
 FROM
     alumno
@@ -17,12 +17,12 @@ ORDER BY
 -- Caso 2
 SELECT
     carreraid AS "CARRERA"
-    ,COUNT(alumnoid) AS "TOTAL ALUMNOS"
+    ,COUNT(*) AS "TOTAL ALUMNOS"
 FROM
     alumno
 GROUP BY
     carreraid
-    HAVING COUNT(alumnoid) > 4
+    HAVING COUNT(*) > 4
 ORDER BY
     carreraid
 ;
@@ -30,10 +30,10 @@ ORDER BY
 -- Caso 3
 SELECT
     TO_CHAR(run_jefe,'FM999g999g999') AS "RUN JEFE SIN DV"
-    ,COUNT(run_emp) AS "TOTAL EMPLEADOS A SU CARGO"
+    ,COUNT(*) AS "TOTAL EMPLEADOS A SU CARGO"
     ,TO_CHAR(MAX(salario),'FML999g999g999') AS "SALARIO MAXIMO"
-    ,(COUNT(run_emp) * 10)||'% del Salario Máximo' AS "PORCENTAJE DE BONIFICACION"
-    ,TO_CHAR((MAX(salario) * (COUNT(run_emp)))/10,'FML999g999g999') AS "BONIFICACION"
+    ,(COUNT(*) * 10)||'% del Salario Máximo' AS "PORCENTAJE DE BONIFICACION"
+    ,TO_CHAR((MAX(salario) * (COUNT(*)))/10,'FML999g999g999') AS "BONIFICACION"
 FROM
     empleado
 WHERE
@@ -56,7 +56,7 @@ SELECT
         WHEN 60 THEN 'SUPERIOR UNIVERSIDAD' 
     END 
         AS "DESCRIPCIÓN ESCOLARIDAD"
-    ,COUNT(run_emp) AS "TOTAL DE EMPLEADOS"
+    ,COUNT(*) AS "TOTAL DE EMPLEADOS"
     ,TO_CHAR(MAX(salario),'FML999g999g999') AS "SALARIO MÁXIMO"
     ,TO_CHAR(MIN(salario),'FML999g999g999') AS "SALARIO MINIMO"
     ,TO_CHAR(SUM(salario),'FML999g999g999') AS "SALARIO TOTAL"
@@ -72,12 +72,12 @@ ORDER BY
 -- Caso 5
 SELECT
     tituloid AS "CODIGO DEL LIBRO"
-    ,COUNT(fecha_ter_prestamo) AS "TOTAL DE VECES SOLICITADO"
+    ,COUNT(*) AS "TOTAL DE VECES SOLICITADO"
     ,CASE
-        WHEN COUNT(fecha_ini_prestamo) = 1 THEN 'No se requiere nuevos ejemplares'
-        WHEN COUNT(fecha_ini_prestamo) BETWEEN 2 AND 3 THEN 'Se requiere comprar 1 nuevos ejemplares'
-        WHEN COUNT(fecha_ini_prestamo) BETWEEN 4 AND 5 THEN 'Se requiere comprar 2 nuevos ejemplares'
-        WHEN COUNT(fecha_ini_prestamo) > 5 THEN 'Se requiere comprar 4 nuevos ejemplares'
+        WHEN COUNT(*) = 1 THEN 'No se requiere nuevos ejemplares'
+        WHEN COUNT(*) BETWEEN 2 AND 3 THEN 'Se requiere comprar 1 nuevos ejemplares'
+        WHEN COUNT(*) BETWEEN 4 AND 5 THEN 'Se requiere comprar 2 nuevos ejemplares'
+        WHEN COUNT(*) > 5 THEN 'Se requiere comprar 4 nuevos ejemplares'
     END
         AS "SUGERENCIA"
 FROM
@@ -94,8 +94,8 @@ ORDER BY
 SELECT
     TO_CHAR(run_emp,'FM999g999g999') AS "RUN EMPLEADO"
     ,TO_CHAR(fecha_ini_prestamo,'MM/YYYY') AS "MES PRESTAMOS LIBROS"
-    ,COUNT(fecha_ini_prestamo) AS "TOTAL PRESTAMOS ATENDIDOS"
-    ,TO_CHAR(COUNT(fecha_ini_prestamo)*10000,'L999g999g999')AS "ASIGNACION POR PRESTAMOS"
+    ,COUNT(*) AS "TOTAL PRESTAMOS ATENDIDOS"
+    ,TO_CHAR(COUNT(*)*10000,'L999g999g999')AS "ASIGNACION POR PRESTAMOS"
 FROM
     prestamo
 WHERE
