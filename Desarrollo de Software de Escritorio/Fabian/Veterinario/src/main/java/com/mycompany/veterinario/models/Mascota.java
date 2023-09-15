@@ -6,18 +6,26 @@ public class Mascota {
     private String fechaNac;
     private int chip;
     private String dueño;
+    private static int idd = 1;
+    private int id;
 
     public Mascota(){
         
     }
     
-    public Mascota(String nombre, String fechaNac, int chip, String dueño) {
+    public Mascota(String nombre, String fechaNac, int chip, String dueño, int id) {
         this.nombre = nombre;
         this.fechaNac = fechaNac;
         this.chip = chip;
         this.dueño = dueño;
+        this.id = idd;
+        
+        idd++;
     }
 
+    public int getId(){
+        return id;
+    }
     
     public String getNombre() {
         return nombre;
@@ -27,8 +35,7 @@ public class Mascota {
         if(nombre.length() == 0){
             System.out.println("ERROR: El nombre esta vacio");
         }
-        else
-            this.nombre = nombre;
+        this.nombre = nombre;
     }
 
     public String getFechaNac() {
@@ -56,7 +63,5 @@ public class Mascota {
 
     public void setDueño(String dueño) {
         this.dueño = dueño;
-    }
-    
-    
+    }  
 }

@@ -9,37 +9,63 @@ public class Veterinario {
         Scanner sc = new Scanner(System.in);
         int opcion;
         Mascota[]arrMascota = new Mascota[15];
-        int contador = 0;
+        int conta = 1;
+        String nombre, fecha, dueño;
+        int chip;
+        int contador;
         
         do{
-            
+            System.out.println("**Bienvenido**");
             System.out.println("MENU");
             System.out.println("1)Ingresar mascota");
             System.out.println("2)Eliminar mascota");
             System.out.println("3)Ver mascotas");
             System.out.println("0)Salir");
-            sc.nextInt(opcion);
+            opcion = sc.nextInt();
             
             switch(opcion){
                 case 1 -> {
                     Mascota mascota1 = new Mascota();
-                    System.out.println("Ingrese el nombre de la mascota");
-                    mascota1.setNombre(sc.nextLine());
-                    System.out.println("Ingrese la fecha de nacimiento de la mascota");
-                    mascota1.setFechaNac(sc.nextLine());
-                    System.out.println("Ingrese el numero del chip");
-                    mascota1.setChip(sc.nextInt());
-                    System.out.println("Ingrese el nombre del dueño");
-                    mascota1.setDueño(sc.nextLine());
+                    
+                    System.out.println("Ingrese el nombre de la mascota: ");
+                    nombre = sc.next();
+                    System.out.println("Ingrese la fecha de nacimiento de la mascota: ");
+                    fecha = sc.next();
+                    System.out.println("Ingrese el numero del chip: ");
+                    chip = sc.nextInt();
+                    System.out.println("Ingrese el nombre del dueño: ");
+                    dueño = sc.next();
+                    
+                    mascota1.setNombre(nombre);
+                    mascota1.setFechaNac(fecha);
+                    mascota1.setChip(chip);
+                    mascota1.setDueño(dueño);
+                    
+                    contador = mascota1.getId();
                     arrMascota[contador] = mascota1;
                     
-                    ++contador;
+                    System.out.println("Ingresada con exito!");
                 }
                 case 2 ->{
-                    
+                    int elim;
+                    System.out.println("**ELIMINAR MASCOTA**");
+                    System.out.println("Que mascota desea eliminar: ");
+                    elim = sc.nextInt();
+                    arrMascota[contador] = null; 
                 }
                 case 3 ->{
+                    System.out.println("3");
                     
+                    for (Mascota mascota : arrMascota) {
+                        if(mascota != null){
+                          System.out.println("Mascota #" + mascota.getId());
+                          System.out.println("Nombre: " + mascota.getNombre());
+                          System.out.println("Fecha de Nacimiento: " + mascota.getFechaNac());
+                          System.out.println("Número de Chip: " + mascota.getChip());
+                          System.out.println("Dueño: " + mascota.getDueño());
+                          System.out.println("-----------------------");
+                        }
+                    }
                 }
             }
         }while(opcion != 0);
