@@ -1,16 +1,22 @@
 package com.mycompany.veterinario.models;
 
 public class Mascota {
+    private static int privateId = 1;
     
     private String nombre;
     private String fechaNac;
     private int chip;
     private String dueño;
-    private static int idd = 1;
     private int id;
 
     public Mascota(){
+        this.id = privateId;
+        this.nombre = "Sin nombre";
+        this.fechaNac = "00/00/000";
+        this.chip = -1;
+        this.dueño = "Sin dueño";
         
+        privateId++;
     }
     
     public Mascota(String nombre, String fechaNac, int chip, String dueño, int id) {
@@ -18,9 +24,7 @@ public class Mascota {
         this.fechaNac = fechaNac;
         this.chip = chip;
         this.dueño = dueño;
-        this.id = idd;
-        
-        idd++;
+        this.id = privateId;     
     }
 
     public int getId(){

@@ -9,10 +9,10 @@ public class Veterinario {
         Scanner sc = new Scanner(System.in);
         int opcion;
         Mascota[]arrMascota = new Mascota[15];
-        int conta = 1;
         String nombre, fecha, dueño;
+        int elim;
         int chip;
-        int contador;
+        int contador = 1;
         
         do{
             System.out.println("**Bienvenido**");
@@ -41,21 +41,20 @@ public class Veterinario {
                     mascota1.setChip(chip);
                     mascota1.setDueño(dueño);
                     
-                    contador = mascota1.getId();
                     arrMascota[contador] = mascota1;
+                    
+                    contador++;
                     
                     System.out.println("Ingresada con exito!");
                 }
                 case 2 ->{
-                    int elim;
                     System.out.println("**ELIMINAR MASCOTA**");
                     System.out.println("Que mascota desea eliminar: ");
                     elim = sc.nextInt();
-                    arrMascota[contador] = null; 
+                    arrMascota[elim] = null; 
                 }
                 case 3 ->{
-                    System.out.println("3");
-                    
+                    System.out.println("**MASCOTAS**");
                     for (Mascota mascota : arrMascota) {
                         if(mascota != null){
                           System.out.println("Mascota #" + mascota.getId());
