@@ -7,13 +7,9 @@ public class Veterinario {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int opcion;
         Mascota[]arrMascota = new Mascota[15];
-        String nombre, fecha, dueño;
-        int elim;
-        int chip;
         int contador = 1;
-        
+        int opcion;        
         do{
             System.out.println("**Bienvenido**");
             System.out.println("MENU");
@@ -21,23 +17,29 @@ public class Veterinario {
             System.out.println("2)Eliminar mascota");
             System.out.println("3)Ver mascotas");
             System.out.println("0)Salir");
-            opcion = sc.nextInt();
+            System.out.print("Seleccione una opcion: ");
+            opcion = Integer.parseInt(sc.nextLine());
             
             switch(opcion){
                 case 1 -> {
                     Mascota mascota1 = new Mascota();
                     
-                    System.out.println("Ingrese el nombre de la mascota: ");
-                    nombre = sc.next();
-                    System.out.println("Ingrese la fecha de nacimiento de la mascota: ");
-                    fecha = sc.next();
-                    System.out.println("Ingrese el numero del chip: ");
-                    chip = sc.nextInt();
-                    System.out.println("Ingrese el nombre del dueño: ");
-                    dueño = sc.next();
+                    System.out.print("Ingrese el nombre de la mascota: ");
+                    String nombre = sc.nextLine();
+                    System.out.print("Ingrese la fecha de nacimiento de la mascota (dd/mm/aaaa): ");
+                    String fecha = sc.nextLine();
+                    System.out.print("Ingrese el numero del chip: ");
+                    int chip = Integer.parseInt(sc.nextLine());
+                    System.out.print("Ingrese el nombre del dueño: ");
+                    String dueño = sc.nextLine();
+                    
+                    String[] fechaSeparada = fecha.split("/");
+                    int dia = Integer.parseInt(fechaSeparada[0]);
+                    int mes = Integer.parseInt(fechaSeparada[1]);
+                    int año = Integer.parseInt(fechaSeparada[2]);
                     
                     mascota1.setNombre(nombre);
-                    mascota1.setFechaNac(fecha);
+                    mascota1.setFecha(dia, mes, año);
                     mascota1.setChip(chip);
                     mascota1.setDueño(dueño);
                     
@@ -49,19 +51,15 @@ public class Veterinario {
                 }
                 case 2 ->{
                     System.out.println("**ELIMINAR MASCOTA**");
-                    System.out.println("Que mascota desea eliminar: ");
-                    elim = sc.nextInt();
+                    System.out.print("Que mascota desea eliminar: ");
+                    int elim = Integer.parseInt(sc.nextLine());
                     arrMascota[elim] = null; 
                 }
                 case 3 ->{
                     System.out.println("**MASCOTAS**");
                     for (Mascota mascota : arrMascota) {
                         if(mascota != null){
-                          System.out.println("Mascota #" + mascota.getId());
-                          System.out.println("Nombre: " + mascota.getNombre());
-                          System.out.println("Fecha de Nacimiento: " + mascota.getFechaNac());
-                          System.out.println("Número de Chip: " + mascota.getChip());
-                          System.out.println("Dueño: " + mascota.getDueño());
+                          System.out.println(mascota.toString());
                           System.out.println("-----------------------");
                         }
                     }
