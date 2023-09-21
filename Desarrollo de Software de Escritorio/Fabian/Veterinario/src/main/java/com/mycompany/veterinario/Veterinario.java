@@ -1,6 +1,7 @@
 package com.mycompany.veterinario;
 
 import com.mycompany.veterinario.models.Mascota;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Veterinario {
@@ -13,9 +14,10 @@ public class Veterinario {
         do{
             System.out.println("**Bienvenido**");
             System.out.println("MENU");
-            System.out.println("1)Ingresar mascota");
-            System.out.println("2)Eliminar mascota");
-            System.out.println("3)Ver mascotas");
+            System.out.println("1)Ingresar Mascota");
+            System.out.println("2)Eliminar Mascota");
+            System.out.println("3)Ver Mascotas");
+            System.out.println("4)Editar Mascota");
             System.out.println("0)Salir");
             System.out.print("Seleccione una opcion: ");
             opcion = Integer.parseInt(sc.nextLine());
@@ -63,6 +65,31 @@ public class Veterinario {
                           System.out.println("-----------------------");
                         }
                     }
+                }
+                case 4 ->{
+                    System.out.println("** EDITAR MASCOTA **");
+                    System.out.print("Que mascota desea editar (Ingrese el identificador): ");
+                    int edit = Integer.parseInt(sc.nextLine());
+                    
+                    System.out.print("Ingrese el nombre de la mascota: ");
+                    String nom = sc.nextLine();
+                    System.out.print("Ingrese la fecha de nacimiento de la mascota (dd/mm/aaaa): ");
+                    String fec = sc.nextLine();
+                    System.out.print("Ingrese el numero del chip: ");
+                    int chi = Integer.parseInt(sc.nextLine());
+                    System.out.print("Ingrese el nombre del dueño: ");
+                    String due = sc.nextLine();
+                    
+                    String[] fechaSep = fec.split("/");
+                    int day = Integer.parseInt(fechaSep[0]);
+                    int month = Integer.parseInt(fechaSep[1]);
+                    int year = Integer.parseInt(fechaSep[2]);
+                    
+                    Mascota mascEdit = new Mascota(nom, LocalDate.of(year,month,day), chi, due, edit);
+                    
+                    arrMascota[edit] = mascEdit;
+                                        
+                    System.out.println("Editada con exito!");
                 }
             }
         }while(opcion != 0);

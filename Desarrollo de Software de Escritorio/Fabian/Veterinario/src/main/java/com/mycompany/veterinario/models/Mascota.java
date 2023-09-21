@@ -21,14 +21,14 @@ public class Mascota {
         privateId++;
     }
     
-    public Mascota(String nombre, LocalDate fechaNac, int chip, String dueño, int id) {
+    public Mascota(String nombre, LocalDate fechaNac, int chip, String dueño, int id) {        
         this.nombre = nombre;
         this.fechaNac = fechaNac;
         this.chip = chip;
         this.dueño = dueño;
-        this.id = privateId;     
+        this.id = id;    
     }
-
+    
     public int getId(){
         return id;
     }
