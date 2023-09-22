@@ -17,10 +17,10 @@ public class Aerolinea {
         
         Pasaje p = new Pasaje();
         p.setDestino("Santiago");
-        p.setFecha(10, 5, 2024);
-        p.setValor(15000);
-        p.setNumAsiento(85);
+        p.setFecha(10, 5, 2022);
         p.setEquipaje("si");
+        p.setValor(10000);
+        p.setNumAsiento(85);
         
         System.out.println(p.toString(pasajero));
         

@@ -3,8 +3,9 @@ package cl.duoc.aerolinea.models;
 import java.time.LocalDate;
 
 public class Pasaje {
+
     private static int numVuelo = 1;
-    
+
     private String pasajero;
     private String destino;
     private LocalDate fecha;
@@ -21,8 +22,6 @@ public class Pasaje {
         this.equipaje = equipaje;
     }
 
-    
-    
     public Pasaje() {
     }
 
@@ -53,11 +52,11 @@ public class Pasaje {
     public void setFecha(int dia, int mes, int año) {
         LocalDate fechaActual = LocalDate.now();
         LocalDate fechaPasaje = LocalDate.of(año, mes, dia);
-        if (fechaPasaje.isBefore(fechaActual)){
-            System.out.println("ERROR: La fecha del pasaje es menor a la acual.");
-        }
-        else
+        if (fechaPasaje.isBefore(fechaActual)) {
+            System.out.println("ERROR: La fecha del pasaje es menor a la actual.");
+        } else {
             this.fecha = fechaPasaje;
+        }
     }
 
     public int getValor() {
@@ -65,16 +64,16 @@ public class Pasaje {
     }
 
     public void setValor(int valor) {
-        if(valor < 10000){
+        if (valor < 10000) {
             System.out.println("ERORR: El valor debe ser mayor a $10.000.");
-        }
-        if(this.equipaje == true){
-            valor = valor + (valor * 20)/100;
-            this.valor = valor;
+        } else {
+            if (this.equipaje == true) {
+                valor = valor + (valor * 20) / 100;
+                this.valor = valor;
+            } else {
+                this.valor = valor;
             }
-        else
-            this.valor = valor;
-         
+        }
     }
 
     public int getNumAsiento() {
@@ -82,11 +81,11 @@ public class Pasaje {
     }
 
     public void setNumAsiento(int numAsiento) {
-        if(numAsiento < 1 || numAsiento > 90){
+        if (numAsiento < 1 || numAsiento > 90) {
             System.out.println("ERORR: El asiento debe ser entre 1 y 90.");
-        }
-        else
+        } else {
             this.numAsiento = numAsiento;
+        }
     }
 
     public boolean isEquipaje() {
@@ -94,22 +93,21 @@ public class Pasaje {
     }
 
     public void setEquipaje(String confirmacion) {
-        if (confirmacion == "si"){
+        if (confirmacion == "si") {
             this.equipaje = true;
-        }
-        else
+        } else {
             this.equipaje = false;
+        }
     }
 
     public String toString(String pasajero) {
-        return "** PASAJE **" +
-                "\nNumero de Vuelo: " + numVuelo
-                + "\n" +pasajero
-                + "\nDestino: "+ destino
-                + "\nFecha: "+ fecha
-                + "\nValor: $"+ valor
-                + "\nNumero Asiento: "+ numAsiento
-                ;
+        return "** PASAJE **"
+                + "\nNumero de Vuelo: " + numVuelo
+                + "\n" + pasajero
+                + "\nDestino: " + destino
+                + "\nFecha: " + fecha
+                + "\nValor: $" + valor
+                + "\nNumero Asiento: " + numAsiento;
     }
 
 }
