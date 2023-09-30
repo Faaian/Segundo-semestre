@@ -96,7 +96,7 @@ SELECT
     TO_CHAR(SYSDATE,'YYYY') AS "AÑO TRIBUTARIO"
     ,TO_CHAR(c.numrun,'FM00g999g999')||'-'||c.dvrun AS "RUN CLIENTE"
     ,c.pnombre||' '||SUBSTR(c.snombre,1,1)||'. '||c.appaterno||' '||c.apmaterno AS "NOMBRE COMPLETO"
-    ,COUNT(*) AS "TOTAL PROD. INV AFECTOS IMPTO"
+    ,COUNT(p.nro_solic_prod) AS "TOTAL PROD. INV AFECTOS IMPTO"
     ,TO_CHAR(SUM(p.monto_total_ahorrado),'L999g999g999') AS "MONTO TOTAL AHORRADO"
 FROM
     cliente c
@@ -115,6 +115,7 @@ ORDER BY
 ;
 
 -- Caso 6
+
 -- Informe 1
 SELECT
     TO_CHAR(c.numrun,'00g999g999')||'-'||UPPER(c.dvrun) AS "RUN CLIENTE"
@@ -134,24 +135,27 @@ GROUP BY
 ORDER BY
     c.appaterno
 ;
+
 -- Informe 2
 SELECT
     TO_CHAR(c.numrun,'00g999g999')||'-'||UPPER(c.dvrun) AS "RUN CLIENTE"
     ,INITCAP(c.pnombre||' '||c.snombre||' '||c.appaterno||' '||c.apmaterno) AS "NOMBRE CLIENTE"
-    ,TO_CHAR(
-    CASE
-        WHEN m.cod_tipo_mov = 1 THEN SUM(m.monto_movimiento)
-    END
-    ,'L999g999g999') AS "ABONO"  
-FROM    
+    ,CASE MIN(m.cod_tipo_mov)
+        WHEN 1 THEN TO_CHAR(SUM(m.monto_movimiento),'FML999g999g999')
+        ELSE 'No Realizó'
+    END AS "ABONOS"
+    ,CASE MAX(m.cod_tipo_mov)
+        WHEN 2 THEN TO_CHAR(SUM(m.monto_movimiento),'FML999g999g999')
+        ELSE 'No Realizó'
+    END AS "RESCATES"
+FROM
     cliente c
         JOIN movimiento m
             ON c.nro_cliente = m.nro_cliente
 GROUP BY
     c.numrun, c.dvrun,
     c.pnombre, c.snombre,
-    c.appaterno, c.apmaterno,
-    m.cod_tipo_mov
+    c.appaterno, c.apmaterno
+ORDER BY
+    c.appaterno
 ;
-
-select * from movimiento;
