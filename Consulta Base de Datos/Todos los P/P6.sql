@@ -44,10 +44,10 @@ SELECT
     ,c.nombre_credito AS "TIPO CREDITO"
     ,SUM(cc.monto_credito) AS "MONTO SOLICITADO CREDITO"
     ,CASE
-        WHEN SUM(cc.monto_credito) BETWEEN 100000 AND 1000.000 THEN SUM(cc.monto_credito) * 0.01
+        WHEN SUM(cc.monto_credito) BETWEEN 100000 AND 1000000 THEN SUM(cc.monto_credito) * 0.01
         WHEN SUM(cc.monto_credito) BETWEEN 1000001 AND 2000000 THEN SUM(cc.monto_credito) * 0.02
         WHEN SUM(cc.monto_credito) BETWEEN 2000001 AND 4000000 THEN SUM(cc.monto_credito) * 0.03
-        WHEN SUM(cc.monto_credito) BETWEEN 4000001 AND 6000000 THEN SUM(cc.monto_solicitado) * 0.04
+        WHEN SUM(cc.monto_credito) BETWEEN 4000001 AND 6000000 THEN SUM(cc.monto_credito) * 0.04
         WHEN SUM(cc.monto_credito) > 6000000 THEN SUM(cc.monto_credito) * 0.07
     END
         AS "APORTE A LA SBIF"
@@ -88,7 +88,7 @@ GROUP BY
     c.appaterno, c.apmaterno
 ORDER BY
     c.appaterno
-    ,SUM(p.monto_total_ahorrado) ASC
+    ,SUM(p.monto_total_ahorrado) DESC
 ;
 
 -- Caso 5
@@ -107,9 +107,51 @@ GROUP BY
     c.pnombre, c.snombre, 
     c.appaterno, c.apmaterno,
     p.fecha_solic_prod
-    HAVING COUNT(*) > 1
+HAVING COUNT(*) > 1
 OR
     SUM(p.monto_total_ahorrado) > 7833186 
 ORDER BY
    c.appaterno 
 ;
+
+-- Caso 6
+-- Informe 1
+SELECT
+    TO_CHAR(c.numrun,'00g999g999')||'-'||UPPER(c.dvrun) AS "RUN CLIENTE"
+    ,INITCAP(c.pnombre||' '||c.snombre||' '||c.appaterno||' '||c.apmaterno) AS "NOMBRE CLIENTE"
+    ,COUNT(*) AS "TOTAL CREDITOS SOLICITADOS" 
+    ,TO_CHAR(SUM(monto_solicitado),'L999g999g999') AS "MONTO TOTAL CREDITOS"
+FROM    
+    cliente c
+        JOIN credito_cliente cc
+            USING(nro_cliente)
+WHERE
+    EXTRACT(YEAR FROM cc.fecha_otorga_cred) = EXTRACT(YEAR FROM SYSDATE) - 1
+GROUP BY
+    c.numrun, c.dvrun,
+    c.pnombre, c.snombre,
+    c.appaterno, c.apmaterno
+ORDER BY
+    c.appaterno
+;
+-- Informe 2
+SELECT
+    TO_CHAR(c.numrun,'00g999g999')||'-'||UPPER(c.dvrun) AS "RUN CLIENTE"
+    ,INITCAP(c.pnombre||' '||c.snombre||' '||c.appaterno||' '||c.apmaterno) AS "NOMBRE CLIENTE"
+    ,TO_CHAR(
+    CASE
+        WHEN m.cod_tipo_mov = 1 THEN SUM(m.monto_movimiento)
+    END
+    ,'L999g999g999') AS "ABONO"  
+FROM    
+    cliente c
+        JOIN movimiento m
+            ON c.nro_cliente = m.nro_cliente
+GROUP BY
+    c.numrun, c.dvrun,
+    c.pnombre, c.snombre,
+    c.appaterno, c.apmaterno,
+    m.cod_tipo_mov
+;
+
+select * from movimiento;
