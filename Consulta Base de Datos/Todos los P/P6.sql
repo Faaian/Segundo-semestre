@@ -1,7 +1,7 @@
 -- Caso 1
 SELECT
     TO_CHAR(c.numrun,'FM999g999g999')||'-'||c.dvrun AS "RUN CLIENTE"
-    ,INITCAP(c.pnombre)||' '||INITCAP(c.snombre)||' '||INITCAP(c.appaterno)||' '||INITCAP(c.apmaterno) AS "NOMBRE CLIENTE"
+    ,INITCAP(c.pnombre||' '||c.snombre||' '||c.appaterno||' '||c.apmaterno) AS "NOMBRE CLIENTE"
     ,p.nombre_prof_ofic AS "PROFESION/OFICIO"
     ,TO_CHAR(c.fecha_nacimiento,'dd "de" Month') AS "DIA DE CUMPLEAÑOS"
 FROM    
