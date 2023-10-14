@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-SELECT
-    TO_CHAR(c.numrun,'09G999G999')||'-'||c.dvrun AS "RUN CLIENTE"
-    ,INITCAP(c.pnombre||' '||c.snombre||' '||c.appaterno||' '||c.apmaterno) AS "NOMBRE CLIENTE"
-    ,TO_CHAR(c.fecha_nacimiento,'dd "de" Month') AS "DIA DE CUMPLEAÑOS"
-FROM
-    cliente c
-        LEFT JOIN comuna co
-            ON c.cod_comuna = co.cod_comuna
-WHERE
-    EXTRACT(MONTH FROM c.fecha_nacimiento) = EXTRACT(MONTH FROM SYSDATE) + 1
-;
-
-SELECT
-
-FROM
-    cliente c
-        JOIN aporte_sbif a
-            ON 
-;
-
-SELECT * FROM CLIENTE;
-SELECT * FROM APORTE_SBIF;
-=======
-=======
->>>>>>> 89d6658a9343fd9a356041a85eb34f5c89d5cae5
 -- Caso 1
 -- Opcion 1
 SELECT
@@ -79,11 +52,17 @@ ORDER BY
 SELECT
     TO_CHAR(c.numrun,'00g999g999')||'-'||UPPER(c.dvrun) AS "RUN CLIENTE"
     ,c.pnombre||' '||c.snombre||' '||c.appaterno||' '||c.apmaterno AS "NOMBRE CLIENTE"
+    ,TO_CHAR(SUM(t.cupo_super_avance),'FML999g999g999') AS "MONTO COMPRAS/AVANCES/S.AVANCES"
 FROM
     cliente c
+        JOIN tarjeta_cliente t ON c.numrun = t.numrun
+        JOIN transaccion_tarjeta_cliente tc ON t.nro_tarjeta = tc.nro_tarjeta
+GROUP BY
+    c.numrun,c.dvrun
+    ,c.pnombre,c.snombre
+    ,c.appaterno,c.apmaterno
 ;
 
-<<<<<<< HEAD
->>>>>>> 89d6658a9343fd9a356041a85eb34f5c89d5cae5
-=======
->>>>>>> 89d6658a9343fd9a356041a85eb34f5c89d5cae5
+select * from tarjeta_cliente;
+select * from transaccion_tarjeta_cliente;
+select * from aporte_sbif;  
