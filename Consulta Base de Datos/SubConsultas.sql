@@ -160,12 +160,38 @@ ORDER BY
     dep.department_name
 ;
 
+-- SubConsulta en la Clausula FROM
 SELECT
-    dep.department_name
-    ,COUNT(*)
+    dep.id_depto
+    ,dep.total_empleados
 FROM
-    departments dep JOIN employees emp
-        ON dep.department_id = emp.department_id
-GROUP BY
-    department_name
+    (SELECT
+        department_id AS id_depto
+        ,COUNT(employee_id) AS total_empleados
+    FROM
+        employees
+    GROUP BY
+        department_id
+    HAVING 
+        COUNT(employee_id) > 3) dep
+ORDER BY
+    dep.id_depto
+;
+--------
+SELECT
+    dep.department_name AS "NOMBRE DEPARTAMENTO" 
+    emp.total_emp AS "TOTAL EMPLEADOS"
+    loc.city AS "CIUDAD"
+FROM 
+    departments dep 
+        JOIN (SELECT e.department_id, 
+        COUNT(e.employee_id) AS total_emp
+        FROM employees e 
+        GROUP BY e.department_id
+        HAVING COUNT(e.employee_id) > 5) emp
+            ON(dep.department_id = emp.department_id)
+    JOIN locations loc
+        ON(dep.location_id = loc.location_id)
+ORDER BY
+    "TOTAL EMPLEADOS" DESC, dep.department_name
 ;
