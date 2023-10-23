@@ -1,5 +1,5 @@
 -- Caso 1
- --Informe 1
+    --Informe 1
 SELECT
     tp.descripcion||','||sa.descripcion AS "SISTEMA_SALUD"
     ,COUNT(at.ate_id) AS "TOTAL ATENCIONES"
@@ -83,23 +83,97 @@ GROUP BY
 ORDER BY
     1, 2
 ;
+
 -- Caso 3
 SELECT
-    uni.nombre AS "UNIDAD"
-    ,med.pnombre||' '||med.snombre||' '||med.apaterno||' '||med.amaterno AS "MEDICO"
-    ,med.telefono AS "TELEFONO"
+    unidad AS "ESPECIALIDAD"
+    ,medico
+    ,fono AS "TELEFONO"
+    ,correo_medico
+    ,atenciones_medicas
+FROM
+    (SELECT DISTINCT
+    med.apaterno AS apellido
+    ,uni.nombre AS unidad
+    ,med.pnombre||' '||med.snombre||' '||med.apaterno||' '||med.amaterno AS medico
+    ,med.telefono AS fono
     ,SUBSTR(uni.nombre,1,2)||SUBSTR(med.apaterno,-3,2)
     ||SUBSTR(med.telefono,-3,3)||TO_CHAR(med.fecha_contrato,'ddmm')
-    ||'@medicocktk.cl' AS "CORREO_MEDICO"
+    ||'@medicocktk.cl' AS correo_medico
     ,(SELECT COUNT(at.ate_id)
     FROM atencion at
     WHERE esp_med.med_run = at.med_run
-    AND TO_CHAR(at.fecha_atencion,'yyyy')=EXTRACT(YEAR FROM SYSDATE)-1) AS "ATENCIONES_MEDICAS"
+    AND TO_CHAR(at.fecha_atencion,'yyyy')=EXTRACT(YEAR FROM SYSDATE)-1) AS atenciones_medicas
 FROM
     unidad uni JOIN medico med
         ON uni.uni_id = med.uni_id
     JOIN especialidad_medico esp_med
-        ON med.med_run = esp_med.med_run
+        ON med.med_run = esp_med.med_run)
 ORDER BY
-     1, med.apaterno
+     1, apellido
+;
+
+-- Caso 4
+    -- Informe 1
+SELECT
+   año_mes AS "AÑO Y MES"
+   ,total AS "TOTAL DE ATENCIONES"
+   ,valor AS "VALOR TOTAL DE LAS ATENCIONES"
+FROM
+    (SELECT
+        TO_CHAR(SYSDATE,'yyyy') AS año
+        ,TO_CHAR(fecha_atencion,'yyyy/mm') AS año_mes
+        ,COUNT(ate_id) AS total
+        ,TO_CHAR(SUM(costo),'L999g999g999') AS valor
+    FROM
+        atencion
+    GROUP BY
+        TO_CHAR(SYSDATE,'yyyy')
+        ,TO_CHAR(fecha_atencion,'yyyy/mm')
+    HAVING 
+        COUNT(ate_id) >= 
+            (SELECT TRUNC(AVG(COUNT(ate_id)))
+            FROM atencion
+            GROUP BY TO_CHAR(fecha_atencion,'yyyy/mm')
+            ))
+WHERE
+     año IN (año, año - 1, año - 2)
+ORDER BY
+    1
+;
+
+    -- Informe 2
+SELECT
+    rut AS "RUT PACIENTE"
+    ,nombre AS "NOMBRE PACIENTE"
+    ,atencion AS "ID ATENCION"
+    ,vencimiento AS "FECHA VENCIMIENTO PAGO"
+    ,pago AS "FECHA PAGO"
+    ,atraso
+FROM
+    (SELECT
+        TO_CHAR(p.pac_run,'00g000g000')||'-'||p.dv_run AS rut
+        ,p.pnombre||' '||p.snombre||' '||p.apaterno||' '||p.amaterno AS nombre
+        ,at.ate_id AS atencion
+        ,pago.fecha_venc_pago AS vencimiento
+        ,TO_CHAR(SYSDATE,'yyyy') AS año
+        ,pago.fecha_pago AS pago
+        ,pago.dias_morosidad AS morosidad
+        ,TRUNC(pago.fecha_pago - pago.fecha_venc_pago) AS "ATRASO"
+    FROM 
+        paciente p JOIN atencion at
+            ON p.pac_run = at.pac_run
+        JOIN pago_atencion pago
+            ON at.ate_id = pago.ate_id)
+WHERE
+    año IN (año, año - 1, año - 2)
+        AND
+    atraso > (SELECT
+                AVG(venc)
+            FROM
+                (SELECT TRUNC(fecha_pago-fecha_venc_pago) AS venc
+                FROM pago_atencion
+                GROUP BY TO_CHAR(fecha_pago,'YYYY'),TO_CHAR(fecha_venc_pago,'YYYY')))
+ORDER BY
+    vencimiento ASC
 ;
