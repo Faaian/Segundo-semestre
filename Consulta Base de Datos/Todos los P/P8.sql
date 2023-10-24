@@ -26,7 +26,7 @@ ORDER BY
     1
 ;
 
- -- Informe 2
+    -- Informe 2
 SELECT
     p.rut AS "RUT PACIENTE"
     ,p.nombre AS "NOMBRE PACIENTE"
@@ -149,17 +149,19 @@ SELECT
     ,atencion AS "ID ATENCION"
     ,vencimiento AS "FECHA VENCIMIENTO PAGO"
     ,pago AS "FECHA PAGO"
-    ,atraso
+    ,atraso AS "DIAS MOROSIDAD"
+    ,TO_CHAR(atraso*2000,'L999g999') AS "VALOR MULTA"
 FROM
     (SELECT
         TO_CHAR(p.pac_run,'00g000g000')||'-'||p.dv_run AS rut
         ,p.pnombre||' '||p.snombre||' '||p.apaterno||' '||p.amaterno AS nombre
         ,at.ate_id AS atencion
-        ,pago.fecha_venc_pago AS vencimiento
+        ,TO_CHAR(pago.fecha_venc_pago,'dd/mm/yyyy') AS vencimiento
+        ,pago.fecha_venc_pago AS fecha_pago
         ,TO_CHAR(SYSDATE,'yyyy') AS año
-        ,pago.fecha_pago AS pago
+        ,TO_CHAR(pago.fecha_pago,'dd/mm/yyyy') AS pago
         ,pago.dias_morosidad AS morosidad
-        ,TRUNC(pago.fecha_pago - pago.fecha_venc_pago) AS "ATRASO"
+        ,TRUNC(pago.fecha_pago - pago.fecha_venc_pago) AS atraso 
     FROM 
         paciente p JOIN atencion at
             ON p.pac_run = at.pac_run
@@ -168,12 +170,51 @@ FROM
 WHERE
     año IN (año, año - 1, año - 2)
         AND
-    atraso > (SELECT
+    atraso > 
+            (SELECT
                 AVG(venc)
             FROM
                 (SELECT TRUNC(fecha_pago-fecha_venc_pago) AS venc
                 FROM pago_atencion
-                GROUP BY TO_CHAR(fecha_pago,'YYYY'),TO_CHAR(fecha_venc_pago,'YYYY')))
+                GROUP BY TO_CHAR(fecha_pago,'YYYY'), TRUNC(fecha_pago-fecha_venc_pago)))
 ORDER BY
-    vencimiento ASC
+    fecha_pago ASC
+    ,atraso DESC
+;
+
+-- Caso 5
+SELECT
+    run AS "RUN MEDICO"
+    ,nombre AS "NOMBRE MEDICO"
+    ,atenciones AS "TOTAL ATENCIONES MEDICAS"
+    ,sueldo AS "SUELDO BASE"
+    ,TO_CHAR(ganancias/cantidad,'L9g999g999') AS "BONIFICACION POR GANANCIAS"
+    ,TO_CHAR(sueldo_base + (ganancias/cantidad),'L99g999g999') AS "SUELDO TOTAL"
+FROM
+    (SELECT DISTINCT
+        esp_med.med_run AS esp_run
+        ,apaterno
+        ,TO_CHAR(med.med_run,'00g000g000')||'-'||med.dv_run AS run
+        ,med.pnombre||' '||med.snombre||' '||med.apaterno||' '||med.amaterno AS nombre
+        ,(SELECT COUNT(ate.ate_id)
+        FROM atencion ate
+        WHERE ate.med_run = esp_med.med_run
+        AND TO_CHAR(ate.fecha_atencion,'yyyy') = TO_CHAR(SYSDATE,'yyyy')) AS atenciones
+        ,med.sueldo_base
+        ,TO_CHAR(med.sueldo_base,'L99g999g999') AS sueldo
+        ,2250000000 * 0.005 AS ganancias
+        ,(SELECT COUNT(*)
+        FROM (select COUNT(ate_id)
+        FROM atencion
+        WHERE TO_CHAR(fecha_atencion,'yyyy') = TO_CHAR(SYSDATE,'yyyy')
+        GROUP BY med_run
+        HAVING COUNT(ate_id) > 7)) AS cantidad
+    FROM
+        medico med JOIN especialidad_medico esp_med
+            ON med.med_run = esp_med.med_run)
+WHERE
+    atenciones > 7
+ORDER BY
+    run
+    ,apaterno
 ;
