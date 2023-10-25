@@ -56,32 +56,27 @@ HAVING
 
 -- Caso 2
 SELECT
-    esp.nombre AS "ESPECIALIDAD"
-    ,med.run AS "RUT"
-    ,med.nombre AS "MEDICO"
+    LOWER(esp.nombre) AS "ESPECIALIDAD"
+    ,TO_CHAR(med.med_run,'00g000g000')||'-'||med.dv_run AS "RUT"
+    ,UPPER(med.pnombre||' '||med.snombre||' '||med.apaterno||' '||med.amaterno) AS "MEDICO"
 FROM
-    (SELECT
-        med_run
-        ,TO_CHAR(med_run,'00g000g000')||'-'||dv_run AS run
-        ,pnombre||' '||snombre||' '||apaterno||' '||amaterno AS nombre
-    FROM medico) 
-    med JOIN 
-        (SELECT esp_med.med_run, esp_med.esp_id, COUNT(at.ate_id) AS atenciones
-        FROM especialidad_medico esp_med
-        JOIN atencion at
-        ON esp_med.med_run = at.med_run
-        WHERE TO_CHAR(at.fecha_atencion,'yyyy') = EXTRACT(YEAR FROM SYSDATE) - 1
-        GROUP BY esp_med.med_run, esp_med.esp_id
-        HAVING COUNT(at.ate_id) < 10) esp_med
-            ON med.med_run = esp_med.med_run
-    JOIN especialidad esp 
-        ON esp_med.esp_id = esp.esp_id
+    especialidad esp JOIN especialidad_medico esp_med
+        ON esp.esp_id = esp_med.esp_id
+    LEFT JOIN atencion at 
+        ON esp_med.esp_id = at.esp_id
+            AND TO_CHAR(at.fecha_atencion,'yyyy') = TO_CHAR(SYSDATE,'yyyy')-1
+    JOIN medico med
+        ON esp_med.med_run = med.med_run
 GROUP BY
-    med.run
-    ,med.nombre
-    ,esp.nombre
+    esp.nombre,med.med_run,
+    med.dv_run,med.pnombre
+    ,med.snombre,med.apaterno
+    ,med.amaterno
+HAVING
+    COUNT(at.ate_id) < 10
 ORDER BY
-    1, 2
+    esp.nombre
+    ,med.apaterno
 ;
 
 -- Caso 3
