@@ -29,6 +29,7 @@ ORDER BY
 ;
 
 -- Caso 2
+    -- Informe 1
 SELECT
     c.rutcliente AS "RUT_CLIENTE"
     ,c.nombre AS "NOMBRE_CLIENTE"
@@ -56,4 +57,32 @@ WHERE
     rutcliente IS NULL
         AND
     TO_CHAR(fecha,'yyyy') = EXTRACT(YEAR FROM SYSDATE) - 1
+;
+
+    -- Informe 2
+UPDATE cliente
+SET descuento_vigente = descuento_vigente + 20000
+    ,estado = 'C'
+    
+WHERE rutcliente IN (SELECT c.rutcliente
+                    FROM cliente c JOIN factura f
+                    ON c.rutcliente = f.rutcliente
+                    GROUP BY c.rutcliente
+                    HAVING COUNT(f.numfactura) >= 3)
+;
+----
+SELECT
+    c.rutcliente AS "RUTCLIENTE"
+    ,c.descuento_vigente
+    ,c.estado
+FROM
+    cliente c JOIN comuna com
+        ON c.codcomuna = com.codcomuna
+    JOIN factura fac ON c.rutcliente = fac.rutcliente
+WHERE
+    TO_CHAR(fac.fecha,'yyyy') = EXTRACT(YEAR FROM SYSDATE) - 1
+GROUP BY
+    c.rutcliente,c.descuento_vigente,c.estado
+ORDER BY
+    c.rutcliente
 ;
