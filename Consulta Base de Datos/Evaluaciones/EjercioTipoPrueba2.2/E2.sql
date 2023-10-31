@@ -84,8 +84,8 @@ SELECT
     ,emp.numrun_emp||'-'||emp.dvrun_emp AS "RUT_EMPLEADO"
     ,emp.pnombre_emp||' '||emp.appaterno_emp AS "NOMBRE"
     ,TO_CHAR(emp.sueldo_base,'FML999g999g999') AS "SUELDO_BASE"
-    ,TO_CHAR((emp.sueldo_base*COUNT(arr.id_arriendo))/100,'L999g999') AS "BONO"
-    ,TO_CHAR(emp.sueldo_base + (emp.sueldo_base*COUNT(arr.id_arriendo))/100,'FML999g999g999') AS "SUELDO_FINAL"
+    ,TO_CHAR(TRUNC((emp.sueldo_base*COUNT(arr.id_arriendo))/100),'L999g999') AS "BONO"
+    ,TO_CHAR(TRUNC(emp.sueldo_base + (emp.sueldo_base*COUNT(arr.id_arriendo))/100),'FML999g999g999') AS "SUELDO_FINAL"
 FROM
     empleado emp JOIN camion ca
         ON emp.numrun_emp = ca.numrun_emp
