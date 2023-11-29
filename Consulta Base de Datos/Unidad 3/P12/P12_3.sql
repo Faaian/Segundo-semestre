@@ -1,0 +1,1 @@
+select * from MDY2131_P12_3.V_COMUNAS;

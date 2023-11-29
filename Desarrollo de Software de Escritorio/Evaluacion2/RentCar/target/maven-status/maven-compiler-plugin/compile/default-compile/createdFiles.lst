@@ -1,0 +1,6 @@
+com\mycompany\rentcar\DTO\VPasajerosDTO.class
+com\mycompany\rentcar\DTO\VehiculoDTO.class
+com\mycompany\rentcar\RentCar.class
+com\mycompany\rentcar\DTO\VCargaDTO.class
+com\mycompany\rentcar\Services\VehiculoService.class
+com\mycompany\rentcar\Services\IVehiculoService.class
