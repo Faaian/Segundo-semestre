@@ -1,0 +1,16 @@
+DROP TABLE movies;
+
+CREATE TABLE movies(
+    id INT AUTO_INCREMENT PRIMARY KEY
+    ,titulo VARCHAR(250) UNIQUE NOT NULL
+    ,director VARCHAR(100) NOT NULL
+    ,año INT NOT NULL
+    ,duracion INT NOT NULL
+    ,genero VARCHAR(50) NOT NULL
+);
+
+INSERT INTO movies(titulo, director, año, duracion, genero)
+VALUES('La mejor app', 'Fabian Loyola', 2022, 120, 'Comedia');
+
+INSERT INTO movies(titulo, director, año, duracion, genero)
+VALUES('El Marmaja', 'Dylan Valenzuela', 2005, 90, 'Drama');
